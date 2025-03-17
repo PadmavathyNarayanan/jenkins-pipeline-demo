@@ -2,8 +2,10 @@ pipeline {
     agent any
     stages {
         stage('Checkout') {
-            steps {
-                git 'https://github.com/PadmavathyNarayanan/jenkins-pipeline-demo.git'
+             steps {
+                withCredentials([usernamePassword(credentialsId: 'github-pat', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                    git url: "https://$GIT_USER:$GIT_TOKEN@github.com/PadmavathyNarayanan/jenkins-pipeline-demo.git", branch: 'main'
+                }
             }
         }
         stage('Build') {
